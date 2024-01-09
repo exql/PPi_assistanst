@@ -38,7 +38,7 @@ class accounts:
         return accountNumber
 
 if __name__== "__main__":
-    token= "Bearer " + ""
+    token= "bearer " + ""
     accountData= accounts()
     accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,token)
     print(accountNumber)

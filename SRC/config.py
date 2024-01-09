@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
-#envPath= Path('.') /'.env_test'
+
 load_dotenv('.env')
 
 
