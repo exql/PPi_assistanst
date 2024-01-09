@@ -1,0 +1,1 @@
+# Dinero disponible en la cuenta para poder utilizar.
