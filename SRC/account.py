@@ -102,7 +102,14 @@ if __name__== "__main__":
 
     balancePosition= accountData.balancePosition(RC.BALANCE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
     
-    for i in balancePosition:
-        print(i)
-    
     #print(balancePosition)
+    groupedAvailability= balancePosition['groupedAvailability']
+    groupedInstruments= balancePosition['groupedInstruments']
+    acciones= groupedInstruments[0]
+    print(acciones)
+
+    """for i in balancePosition:
+        for x in balancePosition['groupedInstruments']:
+            for y in balancePosition['groupedInstruments'][0]:
+                print(y)"""
+            
