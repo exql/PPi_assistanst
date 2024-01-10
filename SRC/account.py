@@ -7,10 +7,10 @@ from conector import restConector
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-""" Retrieves all the available accounts """
+""" Retrieves all data of the available accounts """
 class accounts:
 
-    """"""
+    """ Retrieves the account number """
     def accountNum(self, url, authorizedClient, clientKey, token ):
 
         self.accountUrl= url
@@ -31,15 +31,10 @@ class accounts:
             response_dic= json.loads(response.text)
             accountNumber= response_dic[0]['accountNumber']
             #cuenta= response_dic[0]['name']
-
-            """print(response_dic)
-            print('Account Number: ')
-            print(accountNumber)
-            print('Cuenta: ')
-            print(cuenta)"""
+            return accountNumber
         else:
-             print(response)
-        return accountNumber
+            print("********* Error de conexion " + str(response.status_code) + " *********")
+       
 
 
 
@@ -48,12 +43,10 @@ class accounts:
 
 if __name__== "__main__":
 
-    acc
-
-
-
-    token= "bearer " + ""
+    rest_conector= restConector()
+    login= rest_conector.logger(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
+    bearerToken= login[3]
     accountData= accounts()
-    accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,token)
-    print(accountNumber)
+    accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
+    print("Número de cuenta: " + accountNumber)
     
