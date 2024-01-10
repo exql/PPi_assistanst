@@ -2,12 +2,15 @@ import requests
 import json
 import urllib3
 from config import restCredencial as RC
-from 
+from conector import restConector
     
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
+""" Retrieves all the available accounts """
 class accounts:
 
+    """"""
     def accountNum(self, url, authorizedClient, clientKey, token ):
 
         self.accountUrl= url
@@ -44,6 +47,11 @@ class accounts:
 
 
 if __name__== "__main__":
+
+    acc
+
+
+
     token= "bearer " + ""
     accountData= accounts()
     accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,token)
