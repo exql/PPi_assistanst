@@ -12,10 +12,11 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 url= "https://clientapi_sandbox.portfoliopersonal.com/api/1.0/Account/AvailableBalance?accountNumber=150100"
 
+
 payload = {}
 headers = {
-  'AuthorizedClient': 'API_CLI_REST',
-  'ClientKey': 'ppApiCliSB',
+  'AuthorizedClient': RC.AUTHORIZED_CLIENT,
+  'ClientKey': RC.CLIENT_KEY,
   'Content-Type': 'application/json',
   'Authorization': 'Bearer '
 }
@@ -23,3 +24,4 @@ headers = {
 response = requests.request("GET", url, headers=headers, data=payload, verify=False)
 
 print(response.text)
+

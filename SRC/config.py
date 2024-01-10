@@ -14,6 +14,9 @@ class restCredencial:
     LOGIN_REST_URL:str= os.getenv("LOGIN_REST_URL")
     REFRESH_TOKEN_URL:str= os.getenv("REFRESH_TOKEN_URL")
     ACCOUNT_URL:str= os.getenv("ACCOUNT_URL")
+    CASH_URL:str= os.getenv("CASH_URL")
+    POSITION_URL:str= os.getenv("POSITION_URL")
+    
 
 
 if __name__== "__main__":
