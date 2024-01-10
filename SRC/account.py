@@ -2,6 +2,7 @@ import requests
 import json
 import urllib3
 from config import restCredencial as RC
+from 
     
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -36,6 +37,11 @@ class accounts:
         else:
              print(response)
         return accountNumber
+
+
+
+
+
 
 if __name__== "__main__":
     token= "bearer " + ""

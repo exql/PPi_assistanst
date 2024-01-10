@@ -24,14 +24,22 @@ class restConector:
             'ApiKey': self.ApiKey,
             'ApiSecret': self.ApiSecret
             }
-        response = requests.request("POST", url, headers=headers, data=payload, verify=False)    
-        response_dic = json.loads(response.text)   
+        response = requests.request("POST", url, headers=headers, data=payload, verify=False)
         
-        return response_dic['creationDate'], response_dic['expirationDate'], response_dic['accessToken'], response_dic['refreshToken'], response_dic['expires']
+        if response.ok:
+            print('********* Login exitoso *********')
+            response_dic = json.loads(response.text)
+            token= response_dic['accessToken']
+            bearer= response_dic['tokenType']
+            bearerToken= bearer+ ' ' + token
 
+            return response_dic['creationDate'], response_dic['expirationDate'], token, bearerToken, response_dic['refreshToken'], response_dic['expires']
+        else:
+            print("********* Error de conexion " + str(response.status_code) + " *********")
+        
 
-            
-    """Vamos a iniciar el Refresh Token"""
+          
+    """Realiza la renovación del token"""
 
     def refreshToken(self,url, rfToken, AuthorizedClient, ClientKey, accessToken  ):
 
@@ -53,33 +61,41 @@ class restConector:
         }
 
         response = requests.request("POST", url, headers=headers, data=payload, verify=False)
-        response_dic = json.loads(response.text)    
-        return response_dic['creationDate'], response_dic['expirationDate'], response_dic['accessToken'], response_dic['refreshToken'], response_dic['expires']
-    
+        if response.ok:
+            print('********* Reconexión exitosa *********')
+            response_dic = json.loads(response.text)
+            token= response_dic['accessToken']
+            bearer= response_dic['tokenType']
+            bearerToken= bearer+ ' ' + token
+            return response_dic['creationDate'], response_dic['expirationDate'], token, bearerToken, response_dic['refreshToken'], response_dic['expires']
+        else:
+            print("********* Error de conexion " + str(response.status_code) + " *********")
 
 if __name__== "__main__":
     
-    print('*********Login exitoso *********')
+    #print('*********Login exitoso *********')
     #Para probar el funcionamiento el logger().
     rest_conector= restConector()
     login= rest_conector.logger(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
-    
+   
     #print('Creation Date: ' + login[0])
     #print('Expiration Date: ' + login[1])
-    print("Token: " + login[2])
-    print("Refres Token: " + login[3])
-    #print('Expires: ' + str(login[4]))
+    #print("Token: " + login[2])
+    #print("Bearer Token: " + login{3})
+    #print("Refres Token: " + login[4])
+    #print('Expires: ' + str(login[5]))
     # Para probar que el refreshToken funcione
 
-"""
-    print('*********Refresh Token *********')
 
-    login2= login[2]
-    login3= login[3]
-    refreshToken= rest_conector.refreshToken(RC.REFRESH_TOKEN_URL, login3, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, login2 )
+    print('********* Probando Refresh Token *********')
+
+    token= login[2]
+    refreshToken= login[4]
+    refreshToken= rest_conector.refreshToken(RC.REFRESH_TOKEN_URL, refreshToken, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, token )
     print('_Creation Date: ' + refreshToken[0])
     print('_Expiration Date: ' + refreshToken[1])
     print("_Token: " + refreshToken[2])
-    print("_Refres Token: " + refreshToken[3])
-    print('_Expires: ' + str(refreshToken[4]))
-    """
+    print("_Bearer Token: " + refreshToken[3])
+    print("_Refres Token: " + refreshToken[4])
+    print('_Expires: ' + str(refreshToken[5]))
+    
