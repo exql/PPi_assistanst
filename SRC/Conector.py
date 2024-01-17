@@ -8,7 +8,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 """Conecta unicamente con el servidor API-Rest"""
 class restConector:
     """ Realiza el login al servidor para obtener el token """
-    def logger(self, url, AuthorizedClient, ClientKey, ApiKey, ApiSecret):
+    def conector(self, url, AuthorizedClient, ClientKey, ApiKey, ApiSecret):
                 
         self.url=url
         self.AuthorizedClient= AuthorizedClient
@@ -72,11 +72,9 @@ class restConector:
             print("********* Error de conexion " + str(response.status_code) + " *********")
 
 if __name__== "__main__":
-    
-    #print('*********Login exitoso *********')
-    #Para probar el funcionamiento el logger().
+    #Para probar el funcionamiento el conector().
     rest_conector= restConector()
-    login= rest_conector.logger(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
+    login= rest_conector.conector(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
    
     #print('Creation Date: ' + login[0])
     #print('Expiration Date: ' + login[1])

@@ -3,6 +3,7 @@ import json
 import urllib3
 from config import restCredencial as RC
 from conector import restConector
+from logger import bearerToken
     
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -84,13 +85,13 @@ class accounts:
 
 if __name__== "__main__":
 
-    rest_conector= restConector()
-    login= rest_conector.logger(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
-    bearerToken= login[3]
+    #rest_conector= restConector()
+    #login= rest_conector.conector(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
+    #bearerToken= login[3]
     accountData= accounts()
 
-    #accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
-    #print("Número de cuenta: " + accountNumber)
+    accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
+    print("Número de cuenta: " + accountNumber)
     
     #cash= accountData.availableCash(RC.CASH_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
     #for i in cash:
@@ -100,13 +101,13 @@ if __name__== "__main__":
         #disponibilidad= i["settlement"]
         #print(f"Moneda: {moneda} Monto: {simbolo} {monto} Disponibilidad: {disponibilidad}")
 
-    balancePosition= accountData.balancePosition(RC.BALANCE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
+   # balancePosition= accountData.balancePosition(RC.BALANCE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
     
     #print(balancePosition)
-    groupedAvailability= balancePosition['groupedAvailability']
-    groupedInstruments= balancePosition['groupedInstruments']
-    acciones= groupedInstruments[0]
-    print(acciones)
+    #groupedAvailability= balancePosition['groupedAvailability']
+    #groupedInstruments= balancePosition['groupedInstruments']
+    #acciones= groupedInstruments[0]
+    #print(acciones)
 
     """for i in balancePosition:
         for x in balancePosition['groupedInstruments']:
