@@ -3,7 +3,7 @@ import json
 import urllib3
 from config import restCredencial as RC
 from conector import restConector
-from logger import bearerToken
+
     
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -85,12 +85,20 @@ class accounts:
 
 if __name__== "__main__":
 
+    def json_to_data(jsonFilePath):
+        with open(jsonFilePath, "r", encoding = 'utf-8') as json_file:
+            data= json.load(json_file)
+            bearerToken= data['bearerToken']
+            return bearerToken
+    
+    bearer_token= json_to_data(r'data.json')
+    
     #rest_conector= restConector()
     #login= rest_conector.conector(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
     #bearerToken= login[3]
     accountData= accounts()
 
-    accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
+    accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearer_token)
     print("Número de cuenta: " + accountNumber)
     
     #cash= accountData.availableCash(RC.CASH_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)

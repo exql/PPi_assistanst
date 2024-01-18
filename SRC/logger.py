@@ -47,3 +47,9 @@ print(token)
 print(bearerToken)
 print(refreshToken)
 print(expires)
+
+
+#Estaría bueno agregar el modulo de pasar las fechas de STR a datetime 
+#y creación del json a los metodos conector y refresh token
+#Pero con la diferencía en el refresh token que tomen los datos desde el json.
+
