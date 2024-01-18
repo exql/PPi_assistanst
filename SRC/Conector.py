@@ -61,8 +61,7 @@ class restConector:
             with open (jsonFilePath, 'w', encoding = 'utf-8') as json_file:
                 jsonString = json.dumps(data_dict, indent= 4)
                 json_file.write(jsonString)  
-
-
+            
             return response_dic['creationDate'], response_dic['expirationDate'], token, bearerToken, response_dic['refreshToken'], response_dic['expires']
         else:
             print("********* Error de conexion " + str(response.status_code) + " *********")
@@ -138,7 +137,7 @@ class restConector:
 if __name__== "__main__":
     #Para probar el funcionamiento el conector().
     rest_conector= restConector()
-    #login= rest_conector.conector(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
+    login= rest_conector.conector(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
    
     #print('Creation Date: ' + login[0])
     #print('Expiration Date: ' + login[1])
@@ -148,13 +147,13 @@ if __name__== "__main__":
     #print('Expires: ' + str(login[5]))
 
 
-    print('********* Probando Refresh Token *********')
+    #print('********* Probando Refresh Token *********')
 
-    refreshToken= rest_conector.refreshToken(RC.REFRESH_TOKEN_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY)
-    print('_Creation Date: ' + refreshToken[0])
-    print('_Expiration Date: ' + refreshToken[1])
-    print("_Token: " + refreshToken[2])
-    print("_Bearer Token: " + refreshToken[3])
-    print("_Refres Token: " + refreshToken[4])
-    print('_Expires: ' + str(refreshToken[5]))
+    #refreshToken= rest_conector.refreshToken(RC.REFRESH_TOKEN_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY)
+    #print('_Creation Date: ' + refreshToken[0])
+    #print('_Expiration Date: ' + refreshToken[1])
+    #print("_Token: " + refreshToken[2])
+    #print("_Bearer Token: " + refreshToken[3])
+    #print("_Refres Token: " + refreshToken[4])
+    #print('_Expires: ' + str(refreshToken[5]))
     

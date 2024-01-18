@@ -23,13 +23,13 @@ if __name__=="__main__":
     }
 
   response = requests.request("POST", url, headers=headers, data=payload, verify=False)
-  #print(response)
-  response_dic = json.loads(response.text)
+  print(response)
+  #response_dic = json.loads(response.text)
   #print(response_dic)
-  access_Token = response_dic['accessToken']
+  #access_Token = response_dic['accessToken']
   #refresh_Token = response_dic['refreshToken']
-  print("Access Token: " + access_Token)
+  #print("Access Token: " + access_Token)
   #print("Refresh Token: " + refresh_Token)
 
 
-  #print(response.text)
+  print(response.text)
