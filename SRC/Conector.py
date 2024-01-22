@@ -38,12 +38,12 @@ class restConector:
             creationDate= response_dic['creationDate']
             inicialTime= parser.parse(creationDate)
             inicialTimeStr=inicialTime.strftime('%Y-%m-%d %H:%M:%S')
-            cretionTime= datetime.strptime(inicialTimeStr, '%Y-%m-%d %H:%M:%S')
+            #creationTime= datetime.strptime(inicialTimeStr, '%Y-%m-%d %H:%M:%S')
 
             expirationDate= response_dic['expirationDate']
             expTime= parser.parse(expirationDate)
             expTimeStr= expTime.strftime('%Y-%m-%d %H:%M:%S')
-            expirationTime=datetime.strptime(expTimeStr, '%Y-%m-%d %H:%M:%S')
+            #expirationTime=datetime.strptime(expTimeStr, '%Y-%m-%d %H:%M:%S')
 
             refreshToken= response_dic['refreshToken']
             expires= response_dic['expires']
@@ -70,16 +70,16 @@ class restConector:
           
     """Realiza la renovación del token"""
 
-    def refreshToken(self,url, AuthorizedClient, ClientKey):
+    def refreshToken(self, jsonFilePath, url, AuthorizedClient, ClientKey):
 
+        self.jsonFilePath= jsonFilePath
         self.url=url
         #self.rfToken= rfToken --> agregar el argumento
         self.AuthorizedClient= AuthorizedClient
         self.ClientKey= ClientKey
         #self.accessToken= accessToken --> agregar el argumento  
-          
-        jsonFilePath= r'data.json'
-        with open(jsonFilePath, "r", encoding = 'utf-8') as json_file:
+                
+        with open(self.jsonFilePath, "r", encoding = 'utf-8') as json_file:
             data= json.load(json_file)
             token= data['token']
             refreshToken= data['refreshToken']
@@ -106,12 +106,12 @@ class restConector:
             creationDate= response_dic['creationDate']
             inicialTime= parser.parse(creationDate)
             inicialTimeStr=inicialTime.strftime('%Y-%m-%d %H:%M:%S')
-            cretionTime= datetime.strptime(inicialTimeStr, '%Y-%m-%d %H:%M:%S')
+            #creationTime= datetime.strptime(inicialTimeStr, '%Y-%m-%d %H:%M:%S')
 
             expirationDate= response_dic['expirationDate']
             expTime= parser.parse(expirationDate)
             expTimeStr= expTime.strftime('%Y-%m-%d %H:%M:%S')
-            expirationTime=datetime.strptime(expTimeStr, '%Y-%m-%d %H:%M:%S')
+            #expirationTime=datetime.strptime(expTimeStr, '%Y-%m-%d %H:%M:%S')
 
             refreshToken= response_dic['refreshToken']
             expires= response_dic['expires']
@@ -124,9 +124,9 @@ class restConector:
                         "expires":expires
                         }
 
-            jsonFilePath= r'data.json'      
+              
         
-            with open (jsonFilePath, 'w', encoding = 'utf-8') as json_file:
+            with open (self.jsonFilePath, 'w', encoding = 'utf-8') as json_file:
                 jsonString = json.dumps(data_dict, indent= 4)
                 json_file.write(jsonString)  
             
@@ -137,6 +137,7 @@ class restConector:
 if __name__== "__main__":
     #Para probar el funcionamiento el conector().
     rest_conector= restConector()
+    jsonFilePath= r'data.json'
     login= rest_conector.conector(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
    
     #print('Creation Date: ' + login[0])
@@ -149,7 +150,7 @@ if __name__== "__main__":
 
     #print('********* Probando Refresh Token *********')
 
-    #refreshToken= rest_conector.refreshToken(RC.REFRESH_TOKEN_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY)
+    #refreshToken= rest_conector.refreshToken(jsonFilePath, RC.REFRESH_TOKEN_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY)
     #print('_Creation Date: ' + refreshToken[0])
     #print('_Expiration Date: ' + refreshToken[1])
     #print("_Token: " + refreshToken[2])

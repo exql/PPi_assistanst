@@ -3,12 +3,19 @@ import json
 import urllib3
 from config import restCredencial as RC
 from conector import restConector
+from token_manager import tokenManager
 
     
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-""" Retrieves all data of the available accounts """
+""" Retrieves all data of the available accounts 
+Account Number
+Cash balance available for trading
+Positions
+Account Movements
+"""
+
 class accounts:
 
     """ Retrieves the account number """
@@ -85,40 +92,53 @@ class accounts:
 
 if __name__== "__main__":
 
-    def json_to_data(jsonFilePath):
-        with open(jsonFilePath, "r", encoding = 'utf-8') as json_file:
-            data= json.load(json_file)
-            bearerToken= data['bearerToken']
-            return bearerToken
-    
-    bearer_token= json_to_data(r'data.json')
-    
-    #rest_conector= restConector()
-    #login= rest_conector.conector(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
-    #bearerToken= login[3]
+    importador= tokenManager()   
+    credenciales= importador.importer(r'data.json')
+
+    bearerToken= credenciales[3]
     accountData= accounts()
 
-    accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearer_token)
-    print("Número de cuenta: " + accountNumber)
+    accountNumber= accountData.accountNum(RC.ACCOUNT_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearerToken)
+    print('Número de cuenta: ' + accountNumber)
     
-    #cash= accountData.availableCash(RC.CASH_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
-    #for i in cash:
-        #moneda= i["name"]
-        #simbolo= i["symbol"]
-        #monto= i["amount"]
-        #disponibilidad= i["settlement"]
-        #print(f"Moneda: {moneda} Monto: {simbolo} {monto} Disponibilidad: {disponibilidad}")
+    print("Dinero Disponible: ")
+    cash= accountData.availableCash(RC.CASH_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearerToken)
+    for i in cash:
+        moneda= i["name"]
+        simbolo= i["symbol"]
+        monto= i["amount"]
+        disponibilidad= i["settlement"]
+        print(f"Moneda: {moneda} Monto: {simbolo} {monto} Disponibilidad: {disponibilidad}")
 
-   # balancePosition= accountData.balancePosition(RC.BALANCE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
+    print("Estado de cuenta ")
+    balancePosition= accountData.balancePosition(RC.BALANCE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
     
     #print(balancePosition)
-    #groupedAvailability= balancePosition['groupedAvailability']
-    #groupedInstruments= balancePosition['groupedInstruments']
-    #acciones= groupedInstruments[0]
-    #print(acciones)
+    groupedAvailability= balancePosition['groupedAvailability']
+    groupedInstruments= balancePosition['groupedInstruments']
+    acciones= groupedInstruments[0]
+    accion=groupedInstruments[0]['instruments']
+    
+    
+    for i in accion:
+        simbolo= i["ticker"]
+        nombre= i["description"]
+        ultimoPrecio= i["price"]
+        valorCorriente= i["amount"]
+        cantidad=int(int(valorCorriente)/int(ultimoPrecio))
+        #print(f"Especie: {simbolo} Nombre: {nombre} Cantidad {cantidad} Precio:$ {ultimoPrecio} valorCorriente:$ {valorCorriente}")
+        print( "Especie    Cantidad  Precio  valorCorriente:")
+        print(f"{simbolo} {cantidad} ${ultimoPrecio}  ${valorCorriente}")
 
-    """for i in balancePosition:
+    #cedear= groupedInstruments[1]['instruments']
+    
+    #print(accion)
+    #print(cedear)
+    
+"""
+    for i in balancePosition:
         for x in balancePosition['groupedInstruments']:
             for y in balancePosition['groupedInstruments'][0]:
-                print(y)"""
+                print(y)
             
+"""
