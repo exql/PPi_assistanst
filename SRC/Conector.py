@@ -10,8 +10,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 """Conecta unicamente con el servidor API-Rest"""
 class restConector:
     """ Realiza el login al servidor para obtener el token """
-    def conector(self, url, AuthorizedClient, ClientKey, ApiKey, ApiSecret):
+    def conector(self, jsonFilePath, url, AuthorizedClient, ClientKey, ApiKey, ApiSecret):
                 
+        self.jsonFilePath= jsonFilePath
         self.url=url
         self.AuthorizedClient= AuthorizedClient
         self.ClientKey= ClientKey
@@ -56,9 +57,9 @@ class restConector:
                         "expires":expires
                         }
 
-            jsonFilePath= r'data.json'      
+              
         
-            with open (jsonFilePath, 'w', encoding = 'utf-8') as json_file:
+            with open (self.jsonFilePath, 'w', encoding = 'utf-8') as json_file:
                 jsonString = json.dumps(data_dict, indent= 4)
                 json_file.write(jsonString)  
             
@@ -137,8 +138,8 @@ class restConector:
 if __name__== "__main__":
     #Para probar el funcionamiento el conector().
     rest_conector= restConector()
-    jsonFilePath= r'data.json'
-    login= rest_conector.conector(RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
+    jsonFilePath= r'pruebas/data.json'
+    login= rest_conector.conector(jsonFilePath, RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
    
     #print('Creation Date: ' + login[0])
     #print('Expiration Date: ' + login[1])

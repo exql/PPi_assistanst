@@ -11,6 +11,7 @@ class restCredencial:
     CLIENT_KEY:str= os.getenv("CLIENT_KEY")
     API_KEY:str= os.getenv("API_KEY")
     API_SECRET:str= os.getenv("API_SECRET")
+    BASE_URL:str= os.getenv("BASE_URL")
     LOGIN_REST_URL:str= os.getenv("LOGIN_REST_URL")
     REFRESH_TOKEN_URL:str= os.getenv("REFRESH_TOKEN_URL")
     ACCOUNT_URL:str= os.getenv("ACCOUNT_URL")
