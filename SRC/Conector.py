@@ -138,7 +138,8 @@ class restConector:
 if __name__== "__main__":
     #Para probar el funcionamiento el conector().
     rest_conector= restConector()
-    jsonFilePath= r'pruebas/data.json'
+    #jsonFilePath= r'pruebas/data.json'
+    jsonFilePath= r'data.json'
     login= rest_conector.conector(jsonFilePath, RC.LOGIN_REST_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, RC.API_KEY, RC.API_SECRET)
    
     #print('Creation Date: ' + login[0])

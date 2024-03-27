@@ -46,11 +46,16 @@ class accounts:
             print("********* Error de conexion " + str(response.status_code) + " *********")
 
     """Retrieves cash balance available for trading for the given account"""
-    def availableCash(self, url, authorizedClient, clientKey, bearerTokentoken):
-        self.accountUrl= url
+    def availableCash(self, baseUrl, authorizedClient, clientKey, bearerTokentoken):
+        self.baseUrl= baseUrl
         self.authorizedClient= authorizedClient
         self.clientKey= clientKey
         self.bearerTokentoken= bearerTokentoken
+
+        accountData= accounts()
+        accountNumber= accountData.accountNum(self.baseUrl, self.authorizedClient, self.clientKey, self.bearerTokentoken)
+        
+        url= self.baseUrl + f"Account/AvailableBalance?accountNumber={accountNumber}"
 
         payload = {}
         headers = {
@@ -69,12 +74,17 @@ class accounts:
 
     """Retrieves account balance and positions"""
 
-    def balancePosition(self, url, authorizedClient, clientKey, bearerTokentoken):
+    def balancePosition(self, baseUrl, authorizedClient, clientKey, bearerTokentoken):
        
-        self.accountUrl= url
+        self.baseUrl= baseUrl
         self.authorizedClient= authorizedClient
         self.clientKey= clientKey
         self.bearerTokentoken= bearerTokentoken
+
+        accountData= accounts()
+        accountNumber= accountData.accountNum(self.baseUrl, self.authorizedClient, self.clientKey, self.bearerTokentoken)
+
+        url= self.baseUrl + f"Account/BalancesAndPositions?accountNumber={accountNumber}"
 
         payload = {}
         headers = {
@@ -107,6 +117,7 @@ class accounts:
         accountNumber= accountData.accountNum(self.baseUrl, self.authorizedClient, self.clientKey, self.bearerTokentoken)
         
         url= self.baseUrl + f"Account/Movements?accountNumber={accountNumber}&dateFrom={self.dateFrom}&dateTo={self.dateTo}&ticker={self.ticker}"
+        
         payload = {}
         headers = {
         'AuthorizedClient': self.authorizedClient,
@@ -129,68 +140,69 @@ if __name__== "__main__":
     accountData= accounts()
 
     accountNumber= accountData.accountNum(RC.BASE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearerToken)
-    #print('Número de cuenta: ' + accountNumber)
+    print('Número de cuenta: ' + accountNumber)
     
     #---------------- Probando available Cash
-    #print("Dinero Disponible: ")
-    #cash= accountData.availableCash(RC.CASH_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearerToken)
-    #for i in cash:
-        #moneda= i["name"]
-        #simbolo= i["symbol"]
-        #monto= i["amount"]
-        #disponibilidad= i["settlement"]
-        #print(f"Moneda: {moneda} Monto: {simbolo} {monto} Disponibilidad: {disponibilidad}")
-
+    # print("Dinero Disponible: ")
+    # cash= accountData.availableCash(RC.BASE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearerToken)
+    # for i in cash:
+    #     moneda= i["name"]
+    #     simbolo= i["symbol"]
+    #     monto= i["amount"]
+    #     disponibilidad= i["settlement"]
+    #     print(f"Moneda: {moneda} Monto: {simbolo} {monto} Disponibilidad: {disponibilidad}")
+    
     
     #-------------- Probando Balance Position
-    #print("Estado de cuenta ")
-    #balancePosition= accountData.balancePosition(RC.BALANCE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY,bearerToken)
     
-    #print(balancePosition)
-    #groupedAvailability= balancePosition['groupedAvailability']
-    #groupedInstruments= balancePosition['groupedInstruments']
-    #acciones= groupedInstruments[0]
-    #accion=groupedInstruments[0]['instruments']
+    # print("Estado de cuenta ")
+    # balancePosition= accountData.balancePosition(RC.BASE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearerToken)
+    
+    # print(balancePosition)
+    # groupedAvailability= balancePosition['groupedAvailability']
+    # groupedInstruments= balancePosition['groupedInstruments']
+    # acciones= groupedInstruments[0]
+    # accion=groupedInstruments[0]['instruments']
     
     
-   #for i in accion:
-    #    simbolo= i["ticker"]
-    #    nombre= i["description"]
-    #    ultimoPrecio= i["price"]
-    #   valorCorriente= i["amount"]
-    #    cantidad=int(int(valorCorriente)/int(ultimoPrecio))
-    #    #print(f"Especie: {simbolo} Nombre: {nombre} Cantidad {cantidad} Precio:$ {ultimoPrecio} valorCorriente:$ {valorCorriente}")
-    #    print( "Especie    Cantidad  Precio  valorCorriente:")
-    #    print(f"{simbolo} {cantidad} ${ultimoPrecio}  ${valorCorriente}")
+    # for i in accion:
+    #     simbolo= i["ticker"]
+    #     nombre= i["description"]
+    #     ultimoPrecio= i["price"]
+    #     valorCorriente= i["amount"]
+    #     cantidad=int(int(valorCorriente)/int(ultimoPrecio))
+    #     #print(f"Especie: {simbolo} Nombre: {nombre} Cantidad {cantidad} Precio:$ {ultimoPrecio} valorCorriente:$ {valorCorriente}")
+    #     print( "Especie    Cantidad  Precio  valorCorriente:")
+    #     print(f"{simbolo} {cantidad} ${ultimoPrecio}  ${valorCorriente}")
 
-    #cedear= groupedInstruments[1]['instruments']
+    # cedear= groupedInstruments[1]['instruments']
     
-        
+     
     # -------------- Probando accountMovement
-    """
-    dateFrom= "2020-01-01"
-    dateTo= "2023-06-30"
-    ticker= "GGAL"
-
-    baseUrl= 'https://clientapi_sandbox.portfoliopersonal.com/api/1.0/'
     
-    movimiento=accountData.accountMovement(RC.BASE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearerToken, dateFrom, dateTo, ticker)
-    #for i in movimiento:
-    #   print(i)
-    for i in movimiento:
-      
-        fechaAcuerdro= i['agreementDate']
-        fechaLiquidacion= i['settlementDate']
-        moneda= i['currency']
-        importe= i['amount']
-        precioActivo= i['price']
-        tipoOperacion= i['description']
-        ticker= i['ticker']
-        cantidad= i['quantity']
-        balance= i['balance']  
+    # dateFrom= "2020-01-01"
+    # dateTo= "2023-06-30"
+    # ticker= "GGAL"
 
-        print(f'Movimiento {tipoOperacion}')
-        texto= f"fecha: {fechaLiquidacion} Descripción: {tipoOperacion} Cantidad: {cantidad} Precio:{precioActivo} Importe:{importe} Saldo:{balance}"
-        print(texto)
-        print('-'*10)
-    """
+    # baseUrl= 'https://clientapi_sandbox.portfoliopersonal.com/api/1.0/'
+    
+    # movimiento=accountData.accountMovement(RC.BASE_URL, RC.AUTHORIZED_CLIENT, RC.CLIENT_KEY, bearerToken, dateFrom, dateTo, ticker)
+    # #for i in movimiento:
+    # #   print(i)
+    # for i in movimiento:
+      
+    #     fechaAcuerdro= i['agreementDate']
+    #     fechaLiquidacion= i['settlementDate']
+    #     moneda= i['currency']
+    #     importe= i['amount']
+    #     precioActivo= i['price']
+    #     tipoOperacion= i['description']
+    #     ticker= i['ticker']
+    #     cantidad= i['quantity']
+    #     balance= i['balance']  
+
+    #     print(f'Movimiento {tipoOperacion}')
+    #     texto= f"fecha: {fechaLiquidacion} Descripción: {tipoOperacion} Cantidad: {cantidad} Precio:{precioActivo} Importe:{importe} Saldo:{balance}"
+    #     print(texto)
+    #     print('-'*10)
+ 
